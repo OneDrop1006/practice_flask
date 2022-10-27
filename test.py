@@ -3,11 +3,11 @@ from flask import Flask
 app = Flask(__name__)
 
 @app.route('/')
-def fnc_a():
-	return "root page"
+def hello():
+	return "hello world"
 
 @app.route('/sub')
-def fnc_1():
+def sub():
 	return "sub page"
 
 if __name__ == '__main__':
