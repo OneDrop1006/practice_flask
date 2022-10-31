@@ -1,12 +1,12 @@
-DB Schema commands
+##DB Schema commands
 
-#データベース作成
+#Create DB
 CREATE DATABASE flashcard;
 
-#DB選択
+#select DB
 USE flashcard;
 
-#テーブル作成
+#create tables
 CREATE TABLE users (id INT AUTO_INCREMENT NOT NULL PRIMARY KEY,name varchar(255), favorite INT, done INT);
 
 CREATE TABLE cards (id INT AUTO_INCREMENT PRIMARY KEY, word varchar(255), meaning varchar(255), category INT);
