@@ -17,8 +17,8 @@ def dbConnection():
         cursorclass=pymysql.cursors.DictCursor,
     )
 
-@app.route('/getlist')
-def getList():
+@app.route('/showlist')
+def showList():
     sql = "SELECT * FROM cards;"
 
     try:
@@ -36,6 +36,26 @@ def getList():
         print('DB ERROR')
         print(e)
 
+
+@app.route('/addWord')
+def addWord():
+    #test code for register new words, this function might became a part of method for admin
+    sql = "INSERT INTO cards (word,meaning,category) VALUES ('test','trial something', 1);"
+
+    # try:
+    conn = dbConnection()
+    cursor = conn.cursor()
+    cursor.execute(sql)
+    conn.commit()
+
+    cursor.close()
+    conn.close()
+
+    return sql
+
+    # except Exception as e:
+    #     print('DB ERROR')
+    #     print(e)
 
 ## おまじない
 if __name__ == "__main__":
