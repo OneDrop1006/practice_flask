@@ -1,4 +1,4 @@
-from flask import Flask
+from flask import Flask,request
 import pymysql
 
 app = Flask(__name__)
@@ -37,26 +37,64 @@ def showList():
         print(e)
 
 
-@app.route('/addWord')
-def addWord():
+@app.route('/addCard')
+def addCard():
     #test code for register new words, this function might became a part of method for admin
     sql = "INSERT INTO cards (word,meaning,category) VALUES ('test','trial something', 1);"
 
-    # try:
-    conn = dbConnection()
-    cursor = conn.cursor()
-    cursor.execute(sql)
-    conn.commit()
+    try:
+        conn = dbConnection()
+        cursor = conn.cursor()
+        cursor.execute(sql)
+        conn.commit()
 
-    cursor.close()
-    conn.close()
+        cursor.close()
+        conn.close()
 
-    return sql
+        return sql
 
-    # except Exception as e:
-    #     print('DB ERROR')
-    #     print(e)
+    except Exception as e:
+        print('DB ERROR')
+        print(e)
 
-## おまじない
+@app.route('/editCard',methods=['GET'])
+def editCard():
+
+    # get url parameters
+    req = request.args
+
+    id = req.get('id')
+    word = req.get('word')
+    meaning = req.get('meaning')
+    category = req.get('category')
+
+    param = (word,meaning,category,id)
+
+    sql = ("""
+        UPDATE cards
+            SET word = %s,
+            meaning = %s,
+            category = %s
+            WHERE id = %s;
+        """)
+
+    # DB dbConnection
+    try:
+        conn = dbConnection()
+        cursor = conn.cursor()
+        cursor.execute(sql,param)
+        conn.commit()
+
+        cursor.close()
+        conn.close()
+
+        return sql
+
+    except Exception as e:
+        print('DB ERROR')
+        print(e)
+
+
+##
 if __name__ == "__main__":
     app.run(debug=True)
