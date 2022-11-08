@@ -54,6 +54,7 @@ def addCard():
         return sql
 
     except Exception as e:
+
         print('DB ERROR')
         print(e)
 
@@ -80,6 +81,7 @@ def editCard():
 
     # DB dbConnection
     try:
+
         conn = dbConnection()
         cursor = conn.cursor()
         cursor.execute(sql,param)
@@ -91,8 +93,39 @@ def editCard():
         return sql
 
     except Exception as e:
+
         print('DB ERROR')
         print(e)
+
+
+# delete card funciton.tempolary it uses GET method instead of POST(there's no form to input)
+@app.route('/deleteCard',methods=['GET'])
+def deleteCard():
+
+    req = request.args
+    param = req.get('id')
+
+    sql = ("""
+        DELETE FROM cards
+        WHERE id = %s;
+    """)
+
+    try:
+        conn = dbConnection()
+        cursor = conn.cursor()
+        cursor.execute(sql,param)
+        conn.commit()
+
+        cursor.close()
+        conn.close()
+
+        return sql
+
+    except Exception as e:
+
+        print("DB ERROR")
+        print(e)
+
 
 
 ##
